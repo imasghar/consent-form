@@ -1,0 +1,68 @@
+.container {
+  text-align: center;
+}
+.container h1 {
+  color: rgb(145, 145, 145);
+  margin-bottom: 1.5rem;
+}
+.container .biopsy {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.container .biopsy .biopsy-intro {
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+.container .biopsy .pat-name-date {
+  margin-top: 1rem;
+}
+.container .biopsy .pat-name-date .input-group-text {
+  min-width: 120px;
+  justify-content: center;
+}
+.container .biopsy .biopsy-purpose {
+  text-align: start;
+}
+.container .biopsy .biopsy-purpose h5 {
+  color: #62ABFF;
+}
+.container .biopsy .biopsy-treatment {
+  text-align: start;
+}
+.container .biopsy .biopsy-treatment h5 {
+  color: #62ABFF;
+}
+.container .biopsy .biopsy-imaging {
+  text-align: start;
+}
+.container .biopsy .biopsy-imaging h5 {
+  color: #62ABFF;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.input-group-text {
+  border: none;
+  font-weight: bold;
+}
+
+.form-control {
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+}
+
+.form-control:focus,
+.input-group-text:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: inherit;
+}
+
+/*# sourceMappingURL=styles.css.map */

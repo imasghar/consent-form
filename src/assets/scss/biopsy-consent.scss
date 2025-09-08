@@ -1,0 +1,50 @@
+@use "variables" as *;
+
+.container {
+  text-align: center;
+
+  h1 {
+    color: $light-dark;
+    margin-bottom: 1.5rem;
+  }
+
+  .biopsy {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .biopsy-intro {
+      text-align: justify;
+      margin-bottom: 1rem;
+    }
+
+    .pat-name-date {
+      margin-top: 1rem;
+      .input-group-text {
+        min-width: 120px;
+        justify-content: center;
+      }
+    }
+
+    .biopsy-purpose {
+      text-align: start;
+      h5 {
+        color: $light-blue;
+      }
+    }
+
+    .biopsy-treatment {
+      text-align: start;
+      h5 {
+        color: $light-blue;
+      }
+    }
+
+    .biopsy-imaging {
+      text-align: start;
+      h5 {
+        color: $light-blue;
+      }
+    }
+  }
+}

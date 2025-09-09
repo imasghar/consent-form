@@ -1,15 +1,15 @@
-<div class="container">
+<div #biopsy class="container biopsy">
     <div class="formheader">
         <div class="logo">
         </div>
         <div class="align-items-center">
-            <button type="button" class="btn btn-sm header-button-save"><i class="fa-solid fa-upload me-2"></i>Submit</button>
-            <button type="button" class="btn btn-sm header-button-cancel"><i class="fa-solid fa-xmark me-2"></i>Cancel</button>
+            <button type="button" class="btn btn-sm header-button-save" (click)="onSubmit()">Submit</button>
+            <button type="button" class="btn btn-sm header-button-cancel">Cancel</button>
         </div>
     </div>
     <div class="row">
         <h1>Tissue Biopsy Consent Form</h1>
-        <div class="col-12 biopsy">
+        <div class="col-12 biopsy-content">
             <div class="biopsy-intro">
                 <p>
                     Your healthcare provider may need to perform a skin biopsy to evaluate your skin condition.
@@ -23,7 +23,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="patient-name-label">Patient Name:</span>
-                        <input type="text" class="form-control" aria-label="Patient Name"
+                        <input type="text" class="form-control" aria-label="Patient Name" [(ngModel)]="patName"
                             aria-describedby="patient-name-label">
                     </div>
                 </div>
@@ -69,19 +69,27 @@
                 <h5>OTHER ACKNOWLEDGMENT DISCLOSURES:</h5>
                 <p>I am able to read and understand English.</p>
             </div>
-            <div class="col-md-12 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text" id="patient-signature">CONSENT: PATIENT (OR LEGAL GUARDIAN)
-                        SIGNATURE:</span>
-                    <input type="text" class="form-control" aria-label="patient-signature"
-                        aria-describedby="patient-signature">
-                </div>
-            </div>
 
-            <div class="col-md-12">
-                <div class="input-group">
-                    <span class="input-group-text" id="date-label">Date:</span>
-                    <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label">
+            <div class="row biopsy-signature-date">
+                <div class="col col-md-8 biopsy-signature">
+                    <div class="biopsy-sig-head">
+                        <h5>CONSENT: PATIENT <br>(OR LEGAL GUARDIAN) SIGNATURE:</h5>
+                        <div class="sig-container">
+                            <canvas #biopsyPatientSignature class="sgi-canvas">
+                            </canvas>
+                            <div class="sig-controls">
+                                <button type="button" class="btn btn-sm me-1" (click)="clearSignature()">Clear</button>
+                                <button type="button" class="btn btn-sm" (click)="undoSignature()">Undo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-md-4 biopsy-date">
+                    <div class="input-group">
+                        <span class="input-group-text" id="date-label">Date:</span>
+                        <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label">
+                    </div>
                 </div>
             </div>
         </div>

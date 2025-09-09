@@ -1,22 +1,33 @@
 @use "variables" as *;
-
-.container {
+@use "mixin.scss" as *;
+.biopsy {
   text-align: center;
   border: 1px solid black;
   padding-left: 25px;
   padding-right: 25px;
   height: 100vh;
-  background-color: $light-blue;
+  background-color: whitesmoke;
   overflow: auto;
 
   h1 {
     color: black;
-    margin-bottom: 1.5rem;
-    font-family: 'courier-prime';
+    margin-bottom: 1rem;
+    font-family: "courier-prime";
     font-weight: bold;
+    @include respond-to(mobile) {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      margin-top: 15px;
+    }
+
+    @include respond-to(tablet) {
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+      margin-top: 15px;
+    }
   }
 
-  .biopsy {
+  .biopsy-content {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -24,11 +35,9 @@
 
     .biopsy-intro {
       text-align: justify;
-      margin-bottom: 1rem;
     }
 
     .pat-name-date {
-      margin-top: 1rem;
       .input-group-text {
         min-width: 120px;
         justify-content: center;
@@ -36,10 +45,52 @@
     }
 
     .biopsy-paragraph {
-      text-align: start;
+      text-align: justify;
       h5 {
         color: $dark-blue;
+        @include respond-to(mobile) {
+          font-size: 1rem;
+        }
+
+        @include respond-to(tablet) {
+          font-size: 1.3rem;
+        }
       }
+    }
+  }
+
+  .biopsy-signature-date {
+    align-items: center;
+    .biopsy-signature {
+      .biopsy-sig-head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        @include respond-to(mobile) {
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        @include respond-to(tablet){
+          flex-direction: column;
+          margin-top: 3px;
+          margin-bottom: 3px;
+        }
+        h5 {
+          @include respond-to(mobile) {
+            font-size: 1.2rem;
+          }
+          @include respond-to(tablet) {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+
+  .biopsy-date{
+    @include respond-to(mobile){
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 }

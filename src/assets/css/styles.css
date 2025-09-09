@@ -1,40 +1,97 @@
-.container {
+.biopsy {
   text-align: center;
   border: 1px solid black;
   padding-left: 25px;
   padding-right: 25px;
   height: 100vh;
-  background-color: #C9E9FF;
+  background-color: whitesmoke;
   overflow: auto;
 }
-.container h1 {
+.biopsy h1 {
   color: black;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-family: "courier-prime";
   font-weight: bold;
 }
-.container .biopsy {
+@media (max-width: 767px) {
+  .biopsy h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 15px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .biopsy h1 {
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    margin-top: 15px;
+  }
+}
+.biopsy .biopsy-content {
   display: flex;
   flex-direction: column;
   width: 100%;
   font-size: 16px;
 }
-.container .biopsy .biopsy-intro {
+.biopsy .biopsy-content .biopsy-intro {
   text-align: justify;
-  margin-bottom: 1rem;
 }
-.container .biopsy .pat-name-date {
-  margin-top: 1rem;
-}
-.container .biopsy .pat-name-date .input-group-text {
+.biopsy .biopsy-content .pat-name-date .input-group-text {
   min-width: 120px;
   justify-content: center;
 }
-.container .biopsy .biopsy-paragraph {
-  text-align: start;
+.biopsy .biopsy-content .biopsy-paragraph {
+  text-align: justify;
 }
-.container .biopsy .biopsy-paragraph h5 {
+.biopsy .biopsy-content .biopsy-paragraph h5 {
   color: #2283C6;
+}
+@media (max-width: 767px) {
+  .biopsy .biopsy-content .biopsy-paragraph h5 {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .biopsy .biopsy-content .biopsy-paragraph h5 {
+    font-size: 1.3rem;
+  }
+}
+.biopsy .biopsy-signature-date {
+  align-items: center;
+}
+.biopsy .biopsy-signature-date .biopsy-signature .biopsy-sig-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .biopsy .biopsy-signature-date .biopsy-signature .biopsy-sig-head {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .biopsy .biopsy-signature-date .biopsy-signature .biopsy-sig-head {
+    flex-direction: column;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+}
+@media (max-width: 767px) {
+  .biopsy .biopsy-signature-date .biopsy-signature .biopsy-sig-head h5 {
+    font-size: 1.2rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .biopsy .biopsy-signature-date .biopsy-signature .biopsy-sig-head h5 {
+    font-size: 1.3rem;
+  }
+}
+@media (max-width: 767px) {
+  .biopsy .biopsy-date {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 .container h4 {
@@ -109,7 +166,7 @@ body {
 .input-group-text {
   border: none;
   font-weight: bold;
-  background-color: #C9E9FF;
+  background-color: whitesmoke;
   border-radius: 0;
 }
 
@@ -119,8 +176,13 @@ body {
   border-top: 0;
   border-bottom: 1px solid black;
   border-radius: 0;
-  background-color: #C9E9FF;
+  background-color: whitesmoke;
   padding: 0;
+}
+@media (max-width: 767px) {
+  .form-control {
+    min-width: 80px;
+  }
 }
 
 .form-control:focus,
@@ -128,7 +190,7 @@ body {
   box-shadow: none !important;
   outline: none !important;
   border-color: inherit;
-  background-color: #C9E9FF;
+  background-color: whitesmoke;
 }
 
 .formheader {
@@ -153,6 +215,65 @@ body {
   background-color: #DC3545;
   border-radius: 0;
   color: white;
+}
+@media (max-width: 767px) {
+  .formheader {
+    margin-top: 5px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .formheader {
+    margin-top: 10px;
+  }
+}
+@media (min-width: 768px) {
+  .formheader {
+    margin-top: 15px;
+  }
+}
+
+.sig-container {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #2283C6;
+}
+.sig-container .sig-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-left: 3px;
+  margin-bottom: 3px;
+}
+.sig-container .sig-controls button {
+  border: 1px solid #2283C6;
+}
+@media (max-width: 767px) {
+  .sig-container .sig-controls button {
+    font-size: 12px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sig-container .sig-controls button {
+    font-size: 14px;
+  }
+}
+.sig-container .sig-controls .sig-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='black' viewBox='0 0 24 24'><path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z'/></svg>") 0 24, crosshair;
+}
+@media (max-width: 767px) {
+  .sig-container .sig-controls .sig-canvas {
+    max-width: 400px;
+    height: 100px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sig-container .sig-controls .sig-canvas {
+    max-width: 450px;
+    height: 130px;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

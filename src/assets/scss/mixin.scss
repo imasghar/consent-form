@@ -1,0 +1,19 @@
+@use "variables" as *;
+
+@mixin respond-to($device) {
+  @if $device == mobile {
+    @media (max-width: #{$mobile-max}) {
+      @content;
+    }
+  }
+  @else if $device == tablet {
+    @media (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
+      @content;
+    }
+  }
+  @else if $device == tablet-up {
+    @media (min-width: #{$tablet-min}) {
+      @content;
+    }
+  }
+}

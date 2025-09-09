@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.container {
+  .main-heading {
+    text-align: justify;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: "courier-prime";
+
+    .typo-red {
+      color: $light-red;
+    }
+    .typo-blue {
+      color: $dark-blue;
+    }
+  }
+
+  .ctp-paragraph {
+    text-align: justify;
+    h5 {
+      color: $dark-blue;
+      text-decoration: underline;
+    }
+  }
+
+  .risks{
+    text-align: justify;
+  }
+}

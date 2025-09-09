@@ -1,0 +1,33 @@
+.container {
+  h4 {
+    font-family: "courier-prime";
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  .description {
+    text-align: start;
+    font-family: "roboto-slab";
+    ol {
+      margin-left: 20px;
+    }
+  }
+
+  .description ol {
+    list-style-type: upper-roman;
+  }
+  .description ol li {
+    margin-bottom: 0.5rem;
+    font-family: "roboto-slab";
+  }
+
+  .description ol li::marker {
+    content: counter(list-item, upper-roman) ") ";
+    font-weight: bold;
+  }
+
+  .deb-other-des {
+    text-align: start;
+    font-family: "roboto-slab";
+  }
+
+}

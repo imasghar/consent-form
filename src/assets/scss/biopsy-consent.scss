@@ -2,16 +2,25 @@
 
 .container {
   text-align: center;
+  border: 1px solid black;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 100vh;
+  background-color: $light-blue;
+  overflow: auto;
 
   h1 {
-    color: $light-dark;
+    color: black;
     margin-bottom: 1.5rem;
+    font-family: 'courier-prime';
+    font-weight: bold;
   }
 
   .biopsy {
     display: flex;
     flex-direction: column;
     width: 100%;
+    font-size: 16px;
 
     .biopsy-intro {
       text-align: justify;
@@ -26,24 +35,10 @@
       }
     }
 
-    .biopsy-purpose {
+    .biopsy-paragraph {
       text-align: start;
       h5 {
-        color: $light-blue;
-      }
-    }
-
-    .biopsy-treatment {
-      text-align: start;
-      h5 {
-        color: $light-blue;
-      }
-    }
-
-    .biopsy-imaging {
-      text-align: start;
-      h5 {
-        color: $light-blue;
+        color: $dark-blue;
       }
     }
   }

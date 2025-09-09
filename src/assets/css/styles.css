@@ -1,14 +1,23 @@
 .container {
   text-align: center;
+  border: 1px solid black;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 100vh;
+  background-color: #C9E9FF;
+  overflow: auto;
 }
 .container h1 {
-  color: rgb(145, 145, 145);
+  color: black;
   margin-bottom: 1.5rem;
+  font-family: "courier-prime";
+  font-weight: bold;
 }
 .container .biopsy {
   display: flex;
   flex-direction: column;
   width: 100%;
+  font-size: 16px;
 }
 .container .biopsy .biopsy-intro {
   text-align: justify;
@@ -21,26 +30,78 @@
   min-width: 120px;
   justify-content: center;
 }
-.container .biopsy .biopsy-purpose {
+.container .biopsy .biopsy-paragraph {
   text-align: start;
 }
-.container .biopsy .biopsy-purpose h5 {
-  color: #62ABFF;
-}
-.container .biopsy .biopsy-treatment {
-  text-align: start;
-}
-.container .biopsy .biopsy-treatment h5 {
-  color: #62ABFF;
-}
-.container .biopsy .biopsy-imaging {
-  text-align: start;
-}
-.container .biopsy .biopsy-imaging h5 {
-  color: #62ABFF;
+.container .biopsy .biopsy-paragraph h5 {
+  color: #2283C6;
 }
 
-html, body {
+.container h4 {
+  font-family: "courier-prime";
+  text-decoration: underline;
+  font-weight: bold;
+}
+.container .description {
+  text-align: start;
+  font-family: "roboto-slab";
+}
+.container .description ol {
+  margin-left: 20px;
+}
+.container .description ol {
+  list-style-type: upper-roman;
+}
+.container .description ol li {
+  margin-bottom: 0.5rem;
+  font-family: "roboto-slab";
+}
+.container .description ol li::marker {
+  content: counter(list-item, upper-roman) ") ";
+  font-weight: bold;
+}
+.container .deb-other-des {
+  text-align: start;
+  font-family: "roboto-slab";
+}
+
+.container .main-heading {
+  text-align: justify;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "courier-prime";
+}
+.container .main-heading .typo-red {
+  color: #DC3545;
+}
+.container .main-heading .typo-blue {
+  color: #2283C6;
+}
+.container .ctp-paragraph {
+  text-align: justify;
+}
+.container .ctp-paragraph h5 {
+  color: #2283C6;
+  text-decoration: underline;
+}
+.container .risks {
+  text-align: justify;
+}
+
+@font-face {
+  font-family: "courier-prime";
+  src: url("/assets/fonts/CourierPrime-Regular.woff2") format("woff2"), url("/assets/fonts/CourierPrime-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-slab";
+  src: url("/assets/fonts/RobotoSlab-Regular.woff2") format("woff2"), url("/assets/fonts/RobotoSlab-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
   padding: 0;
   margin: 0;
 }
@@ -48,6 +109,8 @@ html, body {
 .input-group-text {
   border: none;
   font-weight: bold;
+  background-color: #C9E9FF;
+  border-radius: 0;
 }
 
 .form-control {
@@ -56,6 +119,8 @@ html, body {
   border-top: 0;
   border-bottom: 1px solid black;
   border-radius: 0;
+  background-color: #C9E9FF;
+  padding: 0;
 }
 
 .form-control:focus,
@@ -63,6 +128,31 @@ html, body {
   box-shadow: none !important;
   outline: none !important;
   border-color: inherit;
+  background-color: #C9E9FF;
+}
+
+.formheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+}
+.formheader .logo {
+  width: 40px;
+  height: 40px;
+  background-image: url("../images/logo-small.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.formheader .header-button-save {
+  background-color: #00751A;
+  border-radius: 0;
+  color: white;
+}
+.formheader .header-button-cancel {
+  background-color: #DC3545;
+  border-radius: 0;
+  color: white;
 }
 
 /*# sourceMappingURL=styles.css.map */

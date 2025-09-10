@@ -5,24 +5,61 @@ import html2canvas from 'html2canvas';
   providedIn: 'root'
 })
 export class GeneratePdf {
-  
-  generatePdfFromHtml(element: any, formName: string){
-    if(element){
-      html2canvas(element).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const newPdf = new jsPDF('p', 'mm', 'a4');
-        const imgPros = newPdf.getImageProperties(imgData);
-        const pdfWidth = newPdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgPros.height * pdfWidth) / imgPros.width;
-        newPdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        if(formName){
-          newPdf.save(formName);
-        } else {
-          newPdf.save("download.pdf")
-        }
-        
-      })
-    }
+
+  generatePdfFromHtml(element: any, formName: string) {
+    // if (element) {
+    //   html2canvas(element).then((canvas) => {
+    //     const imgData = canvas.toDataURL("image/png");
+    //     const newPdf = new jsPDF('p', 'mm', 'a4');
+    //     const imgPros = newPdf.getImageProperties(imgData);
+    //     const pdfWidth = newPdf.internal.pageSize.getWidth();
+    //     const pdfHeight = (imgPros.height * pdfWidth) / imgPros.width;
+    //     newPdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    //     if (formName) {
+    //       newPdf.save(formName);
+    //     } else {
+    //       newPdf.save("download.pdf")
+    //     }
+
+    //   })
+    // }
+    const originalWidth = document.body.style.width;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.width = '1024px';
+    document.body.style.overflow = 'visible';
+    const scale = 1.5;
+    html2canvas(element, {
+      scale: scale,
+      useCORS: true,
+      logging: false,
+      scrollY: -window.scrollY,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight
+    }).then(canvas => {
+      document.body.style.width = originalWidth;
+      document.body.style.overflow = originalOverflow;
+      const imgData = canvas.toDataURL('image/png', 0.8);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      let heightLeft = pdfHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+      heightLeft -= pdf.internal.pageSize.getHeight();
+
+      while (heightLeft > 0) {
+        position = heightLeft - pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+        heightLeft -= pdf.internal.pageSize.getHeight();
+      }
+
+      // pdf.save(formName || 'download.pdf');
+    }).catch(err => {
+      console.error("Error capturing PDF:", err);
+    });
   }
-  
 }

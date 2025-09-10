@@ -1,128 +1,128 @@
-@use "variables" as *;
-@use "biopsy-consent.scss";
-@use "wound-debridement.scss";
-@use "ctp-consent.scss";
-@use "mixin.scss" as *;
-@use "modal.scss";
-@font-face {
-  font-family: "courier-prime";
-  src: url("/assets/fonts/CourierPrime-Regular.woff2") format("woff2"),
-    url("/assets/fonts/CourierPrime-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
+// @use "variables" as *;
+// @use "biopsy-consent.scss";
+// @use "wound-debridement.scss";
+// @use "ctp-consent.scss";
+// @use "mixin.scss" as *;
+// @use "modal.scss";
+// @font-face {
+//   font-family: "courier-prime";
+//   src: url("/assets/fonts/CourierPrime-Regular.woff2") format("woff2"),
+//     url("/assets/fonts/CourierPrime-Regular.woff") format("woff");
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-@font-face {
-  font-family: "roboto-slab";
-  src: url("/assets/fonts/RobotoSlab-Regular.woff2") format("woff2"),
-    url("/assets/fonts/RobotoSlab-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: "roboto-slab";
+//   src: url("/assets/fonts/RobotoSlab-Regular.woff2") format("woff2"),
+//     url("/assets/fonts/RobotoSlab-Regular.woff") format("woff");
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-}
+// html,
+// body {
+//   padding: 0;
+//   margin: 0;
+// }
 
-.input-group-text {
-  border: none;
-  font-weight: bold;
-  background-color: whitesmoke;
-  border-radius: 0;
-}
+// .input-group-text {
+//   border: none;
+//   font-weight: bold;
+//   background-color: whitesmoke;
+//   border-radius: 0;
+// }
 
-.form-control {
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
-  border-bottom: 1px solid black;
-  border-radius: 0;
-  background-color: whitesmoke;
-  padding: 0;
-  @include respond-to(mobile) {
-    min-width: 80px;
-  }
-}
+// .form-control {
+//   border-left: 0;
+//   border-right: 0;
+//   border-top: 0;
+//   border-bottom: 1px solid black;
+//   border-radius: 0;
+//   background-color: whitesmoke;
+//   padding: 0;
+//   @include respond-to(mobile) {
+//     min-width: 80px;
+//   }
+// }
 
-.form-control:focus,
-.input-group-text:focus {
-  box-shadow: none !important;
-  outline: none !important;
-  border-color: inherit;
-  background-color: whitesmoke;
-}
+// .form-control:focus,
+// .input-group-text:focus {
+//   box-shadow: none !important;
+//   outline: none !important;
+//   border-color: inherit;
+//   background-color: whitesmoke;
+// }
 
-.formheader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 30px;
-  .logo {
-    width: 40px;
-    height: 40px;
-    background-image: $logo-url;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  .header-button-save {
-    background-color: $dark-green;
-    border-radius: 0;
-    color: white;
-  }
-  .header-button-cancel {
-    background-color: $light-red;
-    border-radius: 0;
-    color: white;
-  }
+// .formheader {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   height: 30px;
+//   .logo {
+//     width: 40px;
+//     height: 40px;
+//     background-image: $logo-url;
+//     background-repeat: no-repeat;
+//     background-size: contain;
+//   }
+//   .header-button-save {
+//     background-color: $dark-green;
+//     border-radius: 0;
+//     color: white;
+//   }
+//   .header-button-cancel {
+//     background-color: $light-red;
+//     border-radius: 0;
+//     color: white;
+//   }
 
-  @include respond-to(mobile) {
-    margin-top: 5px;
-  }
+//   @include respond-to(mobile) {
+//     margin-top: 5px;
+//   }
 
-  @include respond-to(tablet) {
-    margin-top: 10px;
-  }
+//   @include respond-to(tablet) {
+//     margin-top: 10px;
+//   }
 
-  @include respond-to(tablet-up) {
-    margin-top: 15px;
-  }
-}
+//   @include respond-to(tablet-up) {
+//     margin-top: 15px;
+//   }
+// }
 
-.sig-container {
-  position: relative;
-  display: inline-block;
-  border: 1px solid $dark-blue;
-  .sig-controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-left: 3px;
-    margin-bottom: 3px;
-    button {
-      border: 1px solid $dark-blue;
-      @include respond-to(mobile) {
-        font-size: 12px;
-      }
-      @include respond-to(tablet) {
-        font-size: 14px;
-      }
-    }
-    .sig-canvas {
-      width: 100%;
-      max-width: 500px;
-      height: 150px;
-      cursor: $cursor-pen;
-      @include respond-to(mobile) {
-        max-width: 400px;
-        height: 100px;
-      }
+// .sig-container {
+//   position: relative;
+//   display: inline-block;
+//   border: 1px solid $dark-blue;
+//   .sig-controls {
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//     margin-left: 3px;
+//     margin-bottom: 3px;
+//     button {
+//       border: 1px solid $dark-blue;
+//       @include respond-to(mobile) {
+//         font-size: 12px;
+//       }
+//       @include respond-to(tablet) {
+//         font-size: 14px;
+//       }
+//     }
+//     .sig-canvas {
+//       width: 100%;
+//       max-width: 500px;
+//       height: 150px;
+//       cursor: $cursor-pen;
+//       @include respond-to(mobile) {
+//         max-width: 400px;
+//         height: 100px;
+//       }
 
-      @include respond-to(tablet) {
-        max-width: 450px;
-        height: 130px;
-      }
-    }
-  }
-}
+//       @include respond-to(tablet) {
+//         max-width: 450px;
+//         height: 130px;
+//       }
+//     }
+//   }
+// }

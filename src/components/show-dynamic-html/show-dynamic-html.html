@@ -1,0 +1,8 @@
+<div class="container border-0 text-end p-0">
+    <button class="btn btn-danger btn-sm rounded-0" (click)="openSignaturePad()">Add Signature</button>
+    <button class="btn btn-success btn-sm rounded-0">Submit</button>
+</div>
+<div [innerHTML]="safeUrl"></div>
+
+
+<app-signature-pad #signatureModal></app-signature-pad>

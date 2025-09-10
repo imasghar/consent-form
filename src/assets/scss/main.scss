@@ -3,6 +3,7 @@
 @use "wound-debridement.scss";
 @use "ctp-consent.scss";
 @use "mixin.scss" as *;
+@use "modal.scss";
 @font-face {
   font-family: "courier-prime";
   src: url("/assets/fonts/CourierPrime-Regular.woff2") format("woff2"),

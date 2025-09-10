@@ -1,0 +1,22 @@
+<div class="modal fade" tabindex="-1" #modal>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">{{ title }}</h1>
+                <button type="button" class="btn-close" (click)="onClose('dismiss')"></button>
+            </div>
+            <div class="modal-body">
+                <ng-content>{{description}}</ng-content>
+            </div>
+            <div class="modal-footer">
+                @if (type == 'info') {
+                <button type="button" class="btn btn-info" (click)="onClose('ok')">Ok</button>
+                }
+                @if (type == 'confirmation') {
+                <button type="button" class="btn btn-secondary" (click)="onClose('cancel')">No</button>
+                <button type="button" class="btn btn-primary" (click)="onClose('save')">Yes</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

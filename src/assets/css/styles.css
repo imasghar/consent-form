@@ -145,6 +145,29 @@
   text-align: justify;
 }
 
+.modal-dialog {
+  font-family: "roboto-slab";
+}
+.modal-dialog .modal-header {
+  font-family: "courier-prime" !important;
+}
+.modal-dialog .modal-header h1 {
+  line-height: 10px;
+  font-weight: bold;
+}
+.modal-dialog .modal-header button {
+  line-height: 10px;
+}
+.modal-dialog .modal-footer {
+  padding: 0;
+}
+.modal-dialog .modal-footer button {
+  width: 60px;
+  line-height: 10px;
+  border-radius: 0;
+  color: white;
+}
+
 @font-face {
   font-family: "courier-prime";
   src: url("/assets/fonts/CourierPrime-Regular.woff2") format("woff2"), url("/assets/fonts/CourierPrime-Regular.woff") format("woff");

@@ -1,13 +1,13 @@
-<div #biopsy class="container biopsy">
+<div class="container biopsy">
     <div class="formheader">
         <div class="logo">
         </div>
-        <div class="align-items-center">
+        <div #saveCancelButtons class="align-items-center">
             <button type="button" class="btn btn-sm header-button-save" (click)="onSubmit()">Submit</button>
             <button type="button" class="btn btn-sm header-button-cancel">Cancel</button>
         </div>
     </div>
-    <div class="row">
+    <div #biopsy class="row">
         <h1>Tissue Biopsy Consent Form</h1>
         <div class="col-12 biopsy-content">
             <div class="biopsy-intro">
@@ -31,7 +31,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="date-label">Date:</span>
-                        <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label">
+                        <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label" [(ngModel)]="patNameDate">
                     </div>
                 </div>
             </div>
@@ -88,10 +88,14 @@
                 <div class="col col-md-4 biopsy-date">
                     <div class="input-group">
                         <span class="input-group-text" id="date-label">Date:</span>
-                        <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label">
+                        <input type="date" class="form-control" aria-label="Date" aria-describedby="date-label" [(ngModel)]="patSigDate">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+<app-modal #modalPopup [title]='modalTitle()' [description]='modalDescription()' [type]='modalType()' (closed)="onModalClosed($event)"></app-modal>

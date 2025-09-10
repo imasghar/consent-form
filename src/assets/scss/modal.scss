@@ -1,0 +1,23 @@
+.modal-dialog {
+    font-family: "roboto-slab";
+  .modal-header {
+    font-family: "courier-prime" !important;
+    h1 {
+      line-height: 10px;
+      font-weight: bold;
+    }
+    button {
+      line-height: 10px;
+    }
+  }
+
+  .modal-footer {
+    padding: 0;
+    button {
+      width: 60px;
+      line-height: 10px;
+      border-radius: 0;
+      color: white;
+    }
+  }
+}

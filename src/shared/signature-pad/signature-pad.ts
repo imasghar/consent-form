@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter, viewChild, OnInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
 declare var bootstrap: any;
 @Component({
@@ -7,40 +7,53 @@ declare var bootstrap: any;
   templateUrl: './signature-pad.html',
   styleUrl: './signature-pad.css'
 })
-export class Signature implements AfterViewInit {
-  @ViewChild("canvasEl", { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('modal') modalElement!: ElementRef;
+export class Signature implements AfterViewInit, OnInit {
+  @ViewChild('signatureModal') SignatureModalElement!: ElementRef;
+  @ViewChild("signatureCanvas") canvasRef!: ElementRef;
   @Output() closed = new EventEmitter<string>();
-  sig!: SignaturePad;
+  sigPad!: SignaturePad;
   private modalInstance: any;
 
-   ngAfterViewInit() {
-      this.resizeCanvas();
-        this.sig = new SignaturePad(this.canvas.nativeElement);
-    }
-  
-    resizeCanvas() {
-      const canvasEl = this.canvas.nativeElement;
+  ngOnInit(): void {
+  }
+  ngAfterViewInit() {
+    this.sigPad = new SignaturePad(this.canvasRef.nativeElement);
+    setTimeout(() => {
+      this.resizeCanvas()
+    }, 2000)
+  }
+
+  open() {
+    this.modalInstance = new bootstrap.Modal(this.SignatureModalElement.nativeElement);
+    this.modalInstance.show();
+  }
+
+  resizeCanvas() {
+    if (this.canvasRef && this.canvasRef.nativeElement) {
+      const canvasEl = this.canvasRef.nativeElement;
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
       canvasEl.width = canvasEl.offsetWidth * ratio;
       canvasEl.height = canvasEl.offsetHeight * ratio;
       canvasEl.getContext("2d")!.scale(ratio, ratio);
     }
+  }
 
-     open() {
-        this.modalInstance = new bootstrap.Modal(this.modalElement.nativeElement);
-        this.modalInstance.show();
-      }
-  
-    clearSignature() {
-      this.sig.clear();
+  clearSignature() {
+    this.sigPad.clear();
+  }
+
+  undoSignature() {
+    const result = this.sigPad.toData();
+    if (result.length) {
+      result.pop();
+      this.sigPad.fromData(result)
     }
-  
-    undoSignature() {
-      const result = this.sig.toData();
-      if (result.length) {
-        result.pop();
-        this.sig.fromData(result)
-      }
+  }
+  onSave(){
+    if(this.sigPad.toData().length){
+    this.closed.emit(this.sigPad.toDataURL());
+    this.clearSignature()
+    this.modalInstance.hide();
     }
+  }
 }

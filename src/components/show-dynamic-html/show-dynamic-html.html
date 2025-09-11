@@ -1,8 +1,16 @@
-<div class="container border-0 text-end p-0">
-    <button class="btn btn-danger btn-sm rounded-0" (click)="openSignaturePad()">Add Signature</button>
-    <button class="btn btn-success btn-sm rounded-0">Submit</button>
+<div class="container-fluid border-0 p-2">
+    <div class="row">
+        <div class="col text-end">
+            <button class="btn btn-danger btn-sm rounded-0" (click)="openSignaturePad()">Add Signature</button>
+            <button [disabled]="!enableSubmit()" class="btn btn-success btn-sm rounded-0"
+                (click)="onSubmit()">Submit</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div [innerHTML]="safeUrl"></div>
+        </div>
+    </div>
 </div>
-<div [innerHTML]="safeUrl"></div>
 
-
-<app-signature-pad #signatureModal></app-signature-pad>
+<app-signature-pad #signatureModal (closed)="onModalClosed($event)"></app-signature-pad>

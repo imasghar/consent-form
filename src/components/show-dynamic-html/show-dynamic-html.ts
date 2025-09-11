@@ -1,16 +1,17 @@
-import { Component, signal, ViewChild, viewChild } from '@angular/core';
+import { Component, Signal, signal, ViewChild, viewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Signature } from '../../shared/signature-pad/signature-pad';
+import { GeneratePdf } from '../../services/generatepdf';
 @Component({
-  selector: 'app-show-dynamic-html',
-  imports: [Signature],
-  templateUrl: './show-dynamic-html.html',
-  styleUrl: './show-dynamic-html.css'
+    selector: 'app-show-dynamic-html',
+    imports: [Signature],
+    templateUrl: './show-dynamic-html.html',
+    styleUrl: './show-dynamic-html.css'
 })
 export class ShowDynamicHtml {
-  @ViewChild("signatureModal") signatureModal!: Signature;
-
-  rawHtml = signal(` <style>
+    @ViewChild("signatureModal") signatureModal!: Signature;
+    enableSubmit = signal(false);
+    rawHtml = signal(`  <style>
         body,
         html {
             padding: 5px;
@@ -21,36 +22,19 @@ export class ShowDynamicHtml {
         }
 
         .container {
-            width: 90%;
+            width: 100%;
             border: 1px solid black;
             padding-left: 10px;
             padding-right: 10px;
-        }
-
-        .input {
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            min-width: 400px;
-            max-width: 600px;
         }
 
         .main {
             width: 80%;
         }
 
-        .input:focus {
-            outline: none !important;
-        }
-
         .main-heading,
         h1 {
             text-align: center;
-        }
-
-        .main-heading,
-        p {
-            text-align: left;
         }
 
         .data-fields {
@@ -64,12 +48,13 @@ export class ShowDynamicHtml {
         }
 
         .description,
-        h3 {
+        h5 {
             color: #2988C7;
         }
 
         p {
             color: black;
+             text-align: left;
         }
 
         .signature-area {
@@ -77,16 +62,39 @@ export class ShowDynamicHtml {
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
-            height: 200px;
+            height: 250px;
             width: 100%;
         }
-        .label{
+
+        .label {
             display: flex;
             flex-direction: row;
             align-items: center;
         }
+
+        label {
+            font-weight: lighter;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .data-fields{
+                flex-direction: column;
+            }
+
+            .signature-area{
+                flex-direction: column;
+            }
+        }
+
+        @media only screen and (min-width: 768px) and (max-width: 1024px) {
+           
+        }
+
+        @media only screen and (min-width: 1025px) {
+           
+        }
     </style>
-    <div class="container">
+    <div id="PdfForm" class="container">
         <div class="main-heading">
             <h1>Tissue Biopsy Consent Form</h1>
             <p>Your healthcare provider may need to perform a skin biopsy to evaluate your skin condition.
@@ -98,17 +106,17 @@ export class ShowDynamicHtml {
                 skin biopsy is necessary.</p>
         </div>
         <div class="data-fields">
-            <span>Patient Name: <input #patName class="input" type="text"></span>
+            <span>Patient Name: <label for="" id="patName">@PatientName</label></span>
             <br>
-            <span>Date: <input #patNameDate class="input" type="date" name="" id=""></span>
+            <span>Date: <label for=""id="patNameDate">@Date</label></span>
         </div>
-        <h3>PURPOSE:</h3>
+        <h5>PURPOSE:</h5>
         <p>A biopsy is a surgical procedure used to obtain a sample of tissue for microscopic examination to aid
             the
             healthcare provider in the diagnosis. The entire lesion may not be removed in this procedure.
             Further
             medical or surgical treatment may be needed when the diagnosis is made.</p>
-        <h3>PROPOSED TREATMENT:</h3>
+        <h5>PROPOSED TREATMENT:</h5>
         <p>I understand that a biopsy requires obtaining a sample of tissue and is a surgical procedure. As in
             any
             surgical procedure, there are certain inherent risks including bleeding, post-operative pain,
@@ -124,7 +132,7 @@ export class ShowDynamicHtml {
             post-operative instructions) affect the ultimate healing.</p>
 
 
-        <h3>DIGITAL IMAGING:</h3>
+        <h5>DIGITAL IMAGING:</h5>
         <p> I authorize clinical images as a part of treatment and care for historical, training and/or
             promotional
             purposes. I understand confidentiality will be maintained.</p>
@@ -134,32 +142,56 @@ export class ShowDynamicHtml {
             a
             separate bill from the pathologist or laboratory for this microscopic examination.</p>
 
-        <h3>OTHER ACKNOWLEDGMENT DISCLOSURES:</h3>
+        <h5>OTHER ACKNOWLEDGMENT DISCLOSURES:</h5>
         I am able to read and understand English.
 
         <div class="signature-area">
             <span>
-                
+
             </span>
             <div class="label">
                 <span>CONSENT: PATIENT <br>(OR LEGAL GUARDIAN) SIGNATURE:</span>
-                <img #signatureImg style="width: 200px; height: 200px; background-repeat: no-repeat; background-size: contain;"
-                    src=""
+                <img id='signatureImg'
+                    style="width: 300px; height: 200px; background-repeat: no-repeat; background-size: contain;" src=""
                     alt="signature">
             </div>
-            <span>Date: <input #patSignatureDate class="input" type="date"></span>
+            <span>Date: <label for="" id="sigDate" >@date</label></span>
         </div>
     </div>
     `);
 
-
+    htmlForPdf = signal("");
     safeUrl!: SafeUrl;
-    constructor(private sanitizer: DomSanitizer){
-      this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(this.rawHtml())
+    constructor(private sanitizer: DomSanitizer, private generatePdf: GeneratePdf) {
+        this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(this.rawHtml())
     }
 
 
-    openSignaturePad(){
-      this.signatureModal.open();
+    openSignaturePad() {
+        this.signatureModal.open();
+    }
+    imageSrc: any;
+    onModalClosed(imagedata: string) {
+        if (imagedata) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(this.rawHtml(), 'text/html');
+            const image = doc.getElementById("signatureImg") as HTMLImageElement;
+            if (image) {
+                image.src = imagedata
+            }
+            this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(doc.documentElement.outerHTML);
+            this.enableSubmit.set(true);
+            this.htmlForPdf.set(doc.documentElement.outerHTML)
+        }
+    }
+
+    onSubmit() {
+        const pdfElement = document.getElementById('PdfForm');
+        if (pdfElement) {
+            this.generatePdf.generatePdfFromHtml(pdfElement, 'tissueBiopsyForm.pdf');
+        } else {
+            console.error('PdfForm element not found in DOM');
+        }
+        this.enableSubmit.set(false);
     }
 }

@@ -1,16 +1,23 @@
-import { Component, Signal, signal, ViewChild, viewChild } from '@angular/core';
+import { Component, OnInit, Signal, signal, ViewChild, viewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Signature } from '../../shared/signature-pad/signature-pad';
 import { GeneratePdf } from '../../services/generatepdf';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { saveConsentForm } from '../../models/saveConsentForm';
+import { Uploadform } from '../../services/uploadform';
 @Component({
     selector: 'app-show-dynamic-html',
-    imports: [Signature],
+    imports: [],
     templateUrl: './show-dynamic-html.html',
     styleUrl: './show-dynamic-html.css'
 })
-export class ShowDynamicHtml {
-    @ViewChild("signatureModal") signatureModal!: Signature;
+export class ShowDynamicHtml implements OnInit {
     enableSubmit = signal(false);
+    doc: any;
+    patName!: any;
+    patNameDate!: any;
+    image!: any;
+    sigDate!: any;
     rawHtml = signal(`  <style>
         body,
         html {
@@ -159,39 +166,84 @@ export class ShowDynamicHtml {
         </div>
     </div>
     `);
-
+    parser: any;
     htmlForPdf = signal("");
     safeUrl!: SafeUrl;
-    constructor(private sanitizer: DomSanitizer, private generatePdf: GeneratePdf) {
+    constructor(private sanitizer: DomSanitizer, private generatePdf: GeneratePdf, private modalService: NgbModal, private uploadFormService: Uploadform) {
         this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(this.rawHtml())
     }
 
-
-    openSignaturePad() {
-        this.signatureModal.open();
-    }
-    imageSrc: any;
-    onModalClosed(imagedata: string) {
-        if (imagedata) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(this.rawHtml(), 'text/html');
-            const image = doc.getElementById("signatureImg") as HTMLImageElement;
-            if (image) {
-                image.src = imagedata
-            }
-            this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(doc.documentElement.outerHTML);
-            this.enableSubmit.set(true);
-            this.htmlForPdf.set(doc.documentElement.outerHTML)
+    ngOnInit(): void {
+        this.parser = new DOMParser();
+        this.doc = this.parser.parseFromString(this.rawHtml(), 'text/html');
+        this.patName = this.doc.getElementById("patName") as HTMLElement;
+        if (this.patName) {
+            this.patName.innerText = "Ghulam Asghar";
         }
+        this.patNameDate = this.doc.getElementById("patNameDate") as HTMLElement;
+        if (this.patNameDate) {
+            this.patNameDate.innerText = "10-09-2025";
+        }
+        this.image = this.doc.getElementById("signatureImg") as HTMLImageElement;
+        this.sigDate = this.doc.getElementById("sigDate") as HTMLElement;
+        if (this.sigDate) {
+            this.sigDate.innerText = "10-09-2025";
+        }
+        this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(this.doc.documentElement.outerHTML);
+        this.htmlForPdf.set(this.doc.documentElement.outerHTML)
+    }
+    popUpOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+    };
+    openSignaturePad() {
+        const modalRef = this.modalService.open(Signature, this.popUpOptions);
+        modalRef.result.then((result) => {
+            if (result.changingThisBreaksApplicationSecurity && this.image) {
+                this.image.src = result.changingThisBreaksApplicationSecurity;
+                this.safeUrl = this.sanitizer.bypassSecurityTrustHtml(this.doc.documentElement.outerHTML);
+                this.enableSubmit.set(true);
+                this.htmlForPdf.set(this.doc.documentElement.outerHTML)
+            }
+        }, (reason) => {
+        })
     }
 
-    onSubmit() {
+    async onSubmit() {
         const pdfElement = document.getElementById('PdfForm');
         if (pdfElement) {
-            this.generatePdf.generatePdfFromHtml(pdfElement, 'tissueBiopsyForm.pdf');
+                const receivedFile = await this.generatePdf.generatePdfFromHtml(pdfElement, 'tissueBiopsyForm.pdf');
+                if (receivedFile instanceof File) {
+                    console.log("its file ok")
+                    const objSaveForm: saveConsentForm = new saveConsentForm();
+                    objSaveForm.patient_id = 51910113091;
+                    objSaveForm.practice_id = 519;
+                    objSaveForm.document_date = "09/12/2025";
+                    objSaveForm.original_file_name = receivedFile.name;
+                    objSaveForm.name = receivedFile.name;
+                    objSaveForm.comment = '';
+                    objSaveForm.doc_categories_id = 5191016;
+                    objSaveForm.modified_user = "LJackson@mhc";
+                    objSaveForm.client_date_modified = "2025-09-12 12:43:59";
+                    objSaveForm.system_ip = "192.168.10.172";
+                    objSaveForm.created_user = "LJackson@mhc";
+                    objSaveForm.client_date_created = "2025-09-12 12:43:59";
+                    const formData: FormData = new FormData();
+                    formData.append('docFile', receivedFile);
+                    formData.append('docData', JSON.stringify(objSaveForm));
+                    formData.append('docCategory', "Billing");
+                    // this.uploadFormService.savePatientConsentForm(formData).subscribe({
+                    //     next: (data: any) => {
+                    //         console.log(data);
+                    //     },
+                    //     error: (err: any) => {
+                    //         console.log("error", err)
+                    //     }
+                    // })
+                }
         } else {
             console.error('PdfForm element not found in DOM');
         }
-        this.enableSubmit.set(false);
+        // this.enableSubmit.set(false);
     }
 }

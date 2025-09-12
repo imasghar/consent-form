@@ -1,40 +1,44 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter, viewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import SignaturePad from 'signature_pad';
-declare var bootstrap: any;
+import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-signature-pad',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './signature-pad.html',
-  styleUrl: './signature-pad.css'
+  styleUrls: ['./signature-pad.css']
 })
-export class Signature implements AfterViewInit, OnInit {
-  @ViewChild('signatureModal') SignatureModalElement!: ElementRef;
-  @ViewChild("signatureCanvas") canvasRef!: ElementRef;
-  @Output() closed = new EventEmitter<string>();
+export class Signature implements AfterViewInit {
+  @ViewChild('signatureCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   sigPad!: SignaturePad;
-  private modalInstance: any;
+  constructor(public activeModal: NgbActiveModal, private sanitizer: DomSanitizer) { }
 
-  ngOnInit(): void {
-  }
   ngAfterViewInit() {
+    this.resizeCanvas();
     this.sigPad = new SignaturePad(this.canvasRef.nativeElement);
-    setTimeout(() => {
-      this.resizeCanvas()
-    }, 2000)
-  }
-
-  open() {
-    this.modalInstance = new bootstrap.Modal(this.SignatureModalElement.nativeElement);
-    this.modalInstance.show();
   }
 
   resizeCanvas() {
-    if (this.canvasRef && this.canvasRef.nativeElement) {
-      const canvasEl = this.canvasRef.nativeElement;
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      canvasEl.width = canvasEl.offsetWidth * ratio;
-      canvasEl.height = canvasEl.offsetHeight * ratio;
-      canvasEl.getContext("2d")!.scale(ratio, ratio);
+    const canvasEl = this.canvasRef.nativeElement;
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const parentEl = canvasEl.parentElement;
+    if (!parentEl) return;
+    const desiredWidth = parentEl.offsetWidth * 0.8;
+    const desiredHeight = parentEl.offsetHeight * 0.8;
+    canvasEl.width = desiredWidth * ratio;
+    canvasEl.height = desiredHeight * ratio;
+    canvasEl.style.width = desiredWidth + 'px';
+    canvasEl.style.height = desiredHeight + 'px';
+
+    const ctx = canvasEl.getContext('2d');
+    if (ctx) {
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    if (this.sigPad) {
+      this.sigPad.clear();
     }
   }
 
@@ -43,17 +47,19 @@ export class Signature implements AfterViewInit, OnInit {
   }
 
   undoSignature() {
-    const result = this.sigPad.toData();
-    if (result.length) {
-      result.pop();
-      this.sigPad.fromData(result)
+    const data = this.sigPad.toData();
+    if (data.length) {
+      data.pop();
+      this.sigPad.fromData(data);
     }
   }
-  onSave(){
-    if(this.sigPad.toData().length){
-    this.closed.emit(this.sigPad.toDataURL());
-    this.clearSignature()
-    this.modalInstance.hide();
+
+  onSave() {
+    let signatureImage: string = this.sigPad.toDataURL();
+    let signaturePoints: any[] = this.sigPad.toData();
+    if (signaturePoints.length) {
+      const safeUrl: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(signatureImage);
+      this.activeModal.close(safeUrl);
     }
   }
 }

@@ -3,6 +3,7 @@ import SignaturePad from 'signature_pad';
 import { FormsModule } from '@angular/forms';
 import { GeneratePdf } from '../../services/generatepdf';
 import { Modal } from '../../shared/modal/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 interface ValidationObj {
   patName: string;
   patNameDate: string;
@@ -30,7 +31,7 @@ export class BiopsyConsent implements OnInit, AfterViewInit {
   modalTitle = signal("");
   modalType = signal("");
 
-  constructor(private generatePdfService: GeneratePdf) { }
+  constructor(private generatePdfService: GeneratePdf, private modalService: NgbModal) { }
   ngOnInit(): void { }
 
   ngAfterViewInit() {
